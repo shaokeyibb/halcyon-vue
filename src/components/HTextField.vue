@@ -130,7 +130,8 @@ const hasValidLength = computed(() =>
     : true
 )
 
-const error = computed(() => props.hasError || !hasValidLength.value)
+const validity = ref(false)
+const error = computed(() => props.hasError || !hasValidLength.value || !validity.value)
 
 const input: Ref<HTMLInputElement | null> = ref(null)
 
@@ -148,6 +149,8 @@ const updateRows = () => {
 
     i.style.height = Math.max(height, _rows.value * +fontSize[0]) + 7 + 'px'
   }
+
+  validity.value = input.value?.checkValidity() ?? false
 }
 
 const onInput = () => {
